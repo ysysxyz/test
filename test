@@ -1,0 +1,27 @@
+import discord
+from discord.ext import commands
+
+intents = discord.Intents.default()
+intents.message_content = True
+
+bot = commands.Bot(command_prefix='!', intents=intents)
+
+@bot.event
+async def on_ready():
+    print(f'Bot has logged in as {bot.user}')
+
+@bot.event
+async def on_message(message):
+    if message.channel.id == 1348349169076797472:
+        # Create a thread
+        thread = await message.create_thread(
+            name=f"Thread for {message.author.name}'s message",
+            auto_archive_duration=60  # Duration in minutes before auto-archiving
+        )
+
+        # Send a custom message to the thread
+        custom_message = "This is a custom message that has been sent to the thread."
+        await thread.send(custom_message)
+
+# Run the bot with the token
+bot.run('MTM0ODQwNTMyMDQ4OTI0MjY2NQ.G_f-E6.zBUNatOJPlftqWTKKM5KJEsPu5EpmiL54US-6I')
